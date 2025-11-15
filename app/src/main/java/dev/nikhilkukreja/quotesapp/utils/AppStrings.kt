@@ -26,4 +26,12 @@ object AppStrings {
     const val wisdom: String = "Wisdom"
     const val courage: String = "Courage"
     const val leadership: String = "Leadership"
+
+    const val lifeIsReallySimple: String = "Life is really simple, but we insist on making it complicated"
+    const val inTheMiddleOfDifficulty: String = "In the middle of difficulty lies opportunity."
+    const val yourLifeIsYourJourney: String = "Your life is as good as your mindset."
+    const val thePurposeOfLife: String = "The purpose of life is not to be happy. It is to be useful"
+    const val confucius: String = "- Confucius"
+    const val albertEinstein: String = "- Albert Einstein"
+    const val emerson: String = "- Emerson"
 }

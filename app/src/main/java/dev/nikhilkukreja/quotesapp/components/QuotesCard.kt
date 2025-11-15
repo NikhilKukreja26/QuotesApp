@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.nikhilkukreja.quotesapp.data.QuoteModel
+import dev.nikhilkukreja.quotesapp.ui.theme.Normal12
 import dev.nikhilkukreja.quotesapp.ui.theme.Normal14
 import dev.nikhilkukreja.quotesapp.ui.theme.Normal8
 
@@ -94,7 +95,7 @@ fun QuotesCard(
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = quote.author,
-                style = MaterialTheme.typography.Normal8.copy(
+                style = MaterialTheme.typography.Normal12.copy(
                     color = Color.White,
                     lineHeight = 16.sp,
                     fontStyle = FontStyle.Italic

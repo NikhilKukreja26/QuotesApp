@@ -50,8 +50,6 @@ class MainActivity : ComponentActivity() {
                                     onClick = {
                                         selectedIndex = index
                                         navHostController.navigate(navItem.route)
-
-
                                     },
                                     icon = {
                                         Icon(

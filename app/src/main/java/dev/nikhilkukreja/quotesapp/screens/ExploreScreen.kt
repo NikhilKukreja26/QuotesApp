@@ -18,10 +18,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.nikhilkukreja.quotesapp.components.QuoteTile
 import dev.nikhilkukreja.quotesapp.data.QuoteCategoryModel
 import dev.nikhilkukreja.quotesapp.data.quoteCategories
+import dev.nikhilkukreja.quotesapp.data.quotes
 import dev.nikhilkukreja.quotesapp.ui.theme.Bold20
 import dev.nikhilkukreja.quotesapp.utils.AppStrings
 import kotlinx.coroutines.launch
@@ -32,23 +35,31 @@ fun ExploreScreen(
     selectedCategory: String?,
 ) {
     val lazyListState = rememberLazyListState()
-
     val scope = rememberCoroutineScope()
 
-    var selectedQuoteCategory: QuoteCategoryModel? by remember { mutableStateOf(null) }
+    var selectedQuoteCategory by remember { mutableStateOf<QuoteCategoryModel?>(null) }
 
-    if (selectedCategory != null) {
-        selectedQuoteCategory = quoteCategories.find { it.category.name == selectedCategory }
-        LaunchedEffect(Unit) {
+    val filteredQuotes = remember(selectedQuoteCategory) {
+        selectedQuoteCategory?.let { cat ->
+            quotes.filter { it.category.name == cat.category.name }
+        } ?: quotes
+    }
+
+
+    LaunchedEffect(selectedCategory) {
+        if (selectedCategory == null) {
+            selectedQuoteCategory = null
+            lazyListState.scrollToItem(0)
+        } else {
+            selectedQuoteCategory = quoteCategories.find { it.category.name == selectedCategory }
+
             val index = quoteCategories.indexOf(selectedQuoteCategory)
-
             if (index != -1) {
                 val targetIndex = (index - 1).coerceAtLeast(0)
                 lazyListState.animateScrollToItem(targetIndex)
             }
         }
     }
-
 
     LazyColumn(
         modifier = modifier
@@ -70,20 +81,18 @@ fun ExploreScreen(
             ) {
                 items(quoteCategories.size) { index ->
                     val quoteCategory = quoteCategories[index]
+
                     FilterChip(
                         selected = selectedQuoteCategory == quoteCategory,
                         onClick = {
                             selectedQuoteCategory = quoteCategory
+
                             scope.launch {
-                                if (index != -1) {
-                                    val targetIndex = (index - 1).coerceAtLeast(0)
-                                    lazyListState.animateScrollToItem(targetIndex)
-                                }
+                                val targetIndex = (index - 1).coerceAtLeast(0)
+                                lazyListState.animateScrollToItem(targetIndex)
                             }
                         },
-                        label = {
-                            Text(text = quoteCategory.name)
-                        },
+                        label = { Text(text = quoteCategory.name) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = quoteCategory.color,
                             selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
@@ -93,12 +102,15 @@ fun ExploreScreen(
             }
         }
 
-//        items(quotes.size) {index ->
-//            QuoteTile(
-//                quote = quotes[index],
-//            )
-//
-//        }
-
+        items(filteredQuotes.size) { index ->
+            QuoteTile(quote = filteredQuotes[index])
+        }
     }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewExploreScreen() {
+    ExploreScreen(selectedCategory = "")
 }

@@ -12,20 +12,40 @@ data class QuoteModel(
     val isFavorite: Boolean = false
 )
 
-enum class  QuoteCat {
-    LIFE,
-    MOTIVATION,
-    SUCCESS,
-    WISDOM,
-    LOVE,
-    COURAGE,
-    LEADERSHIP,
+enum class  QuoteCat(val displayName: String) {
+    LIFE(AppStrings.life),
+    MOTIVATION(AppStrings.motivation),
+    SUCCESS(AppStrings.success),
+    WISDOM(displayName = AppStrings.wisdom),
+    LOVE(AppStrings.love),
+    COURAGE(AppStrings.courage),
+    LEADERSHIP(AppStrings.leadership),
 }
 
 val quotes: List<QuoteModel> = listOf<QuoteModel>(
     QuoteModel(
         text = AppStrings.neverForget,
         author = AppStrings.igGlossyMinds,
+        backgroundColor = Color(0xFF1E40AF)
+    ),
+    QuoteModel(
+        text = AppStrings.lifeIsReallySimple,
+        author = AppStrings.confucius,
+        backgroundColor = Color(0xFF1E40AF)
+    ),
+    QuoteModel(
+        text = AppStrings.inTheMiddleOfDifficulty,
+        author = AppStrings.albertEinstein,
+        backgroundColor = Color(0xFF1E40AF)
+    ),
+    QuoteModel(
+        text = AppStrings.thePurposeOfLife,
+        author = AppStrings.emerson,
+        backgroundColor = Color(0xFF1E40AF)
+    ),
+    QuoteModel(
+        text = AppStrings.yourLifeIsYourJourney,
+        author = AppStrings.confucius,
         backgroundColor = Color(0xFF1E40AF)
     ),
     QuoteModel(

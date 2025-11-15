@@ -88,7 +88,18 @@ val Typography.Bold12: TextStyle
         return TextStyle(
             fontFamily = FontFamily(Font(R.font.poppins_bold)),
             fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
+            fontSize = 12.sp,
+            lineHeight = 24.sp,
+        )
+    }
+
+val Typography.Bold10: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontFamily = FontFamily(Font(R.font.poppins_bold)),
+            fontWeight = FontWeight.Bold,
+            fontSize = 10.sp,
             lineHeight = 24.sp,
         )
     }
