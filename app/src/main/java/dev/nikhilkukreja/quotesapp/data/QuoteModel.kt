@@ -1,5 +1,6 @@
 package dev.nikhilkukreja.quotesapp.data
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.Color
 import dev.nikhilkukreja.quotesapp.utils.AppStrings
 
@@ -40,5 +41,8 @@ val quotes: List<QuoteModel> = listOf<QuoteModel>(
         category = QuoteCat.MOTIVATION
 
     ),
-
 )
+
+val sharedQuotes = mutableStateListOf<QuoteModel>().apply {
+    addAll(quotes)
+}

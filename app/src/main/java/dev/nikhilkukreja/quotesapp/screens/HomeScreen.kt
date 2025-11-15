@@ -30,6 +30,7 @@ import dev.nikhilkukreja.quotesapp.components.SectionHeader
 import dev.nikhilkukreja.quotesapp.data.QuoteModel
 import dev.nikhilkukreja.quotesapp.data.quoteCategories
 import dev.nikhilkukreja.quotesapp.data.quotes
+import dev.nikhilkukreja.quotesapp.data.sharedQuotes
 import dev.nikhilkukreja.quotesapp.ui.theme.Bold20
 import dev.nikhilkukreja.quotesapp.ui.theme.Normal12
 import dev.nikhilkukreja.quotesapp.ui.theme.QuotesAppTheme
@@ -40,14 +41,6 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     onNavigateToExplore: (category: String?) -> Unit = {}
 ) {
-
-    val items = remember {
-        mutableStateListOf<QuoteModel>(
-
-        ).apply {
-            addAll(quotes)
-        }
-    }
 
     LazyColumn(
         modifier = modifier
@@ -101,11 +94,11 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
-                items(items.size) { index ->
+                items(sharedQuotes.size) { index ->
                     QuotesCard(
-                        quote = items[index],
+                        quote = sharedQuotes[index],
                         onFavoriteClick = {
-                            items[index] = items[index].copy(isFavorite = !items[index].isFavorite)
+                            sharedQuotes[index] = sharedQuotes[index].copy(isFavorite = !sharedQuotes[index].isFavorite)
 
                         }
                     )
@@ -153,11 +146,11 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
-                items(items.size) { index ->
+                items(sharedQuotes.size) { index ->
                     QuotesCard(
-                        quote = items[index],
+                        quote = sharedQuotes[index],
                         onFavoriteClick = {
-                            items[index] = items[index].copy(isFavorite = !items[index].isFavorite)
+                            sharedQuotes[index] = sharedQuotes[index].copy(isFavorite = !sharedQuotes[index].isFavorite)
 
                         }
                     )

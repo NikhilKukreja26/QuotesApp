@@ -1,5 +1,6 @@
 package dev.nikhilkukreja.quotesapp
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -26,12 +27,13 @@ fun AppNavGraph(
             HomeScreen(
                 modifier = modifier,
                 onNavigateToExplore = { category ->
-                    navHostController.navigate("${DestinationsRoutes.Explore.route}/$category")
+                    val encoded = Uri.encode(category)
+                    navHostController.navigate("${DestinationsRoutes.Explore.route}?category=$encoded")
                 }
             )
         }
         composable(
-            "${DestinationsRoutes.Explore.route}?category=/{category}",
+            "${DestinationsRoutes.Explore.route}?category={category}",
             arguments = listOf(navArgument("category") {
                 type = NavType.StringType
                 nullable = true
