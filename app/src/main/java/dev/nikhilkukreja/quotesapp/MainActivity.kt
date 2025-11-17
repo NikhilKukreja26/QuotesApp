@@ -19,9 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.nikhilkukreja.quotesapp.ui.theme.QuotesAppTheme
 
@@ -32,34 +35,37 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navHostController = rememberNavController()
 
-            val navItemList: List<NavItem> = listOf<NavItem>(
-                NavItem(label = "Home", route = DestinationsRoutes.Home.route,  icon = Icons.Default.Home),
-                NavItem(label = "Explore", route = DestinationsRoutes.Explore.route, icon = Icons.Default.Explore),
-                NavItem(label = "Saved", route = DestinationsRoutes.Saved.route, icon = Icons.Default.Favorite),
-                )
+            val navItemList = listOf(
+                NavItem("Home", DestinationsRoutes.Home.route, Icons.Default.Home),
+                NavItem("Explore", DestinationsRoutes.Explore.route, Icons.Default.Explore),
+                NavItem("Saved", DestinationsRoutes.Saved.route, Icons.Default.Favorite),
+            )
 
-            var selectedIndex by remember { mutableIntStateOf(0) }
+            val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
+            val selectedIndex = navItemList.indexOfFirst { navItem ->
+                currentRoute?.substringBefore("?") == navItem.route
+            }.coerceAtLeast(0)
+
             QuotesAppTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
-                        NavigationBar() {
+                        NavigationBar {
                             navItemList.forEachIndexed { index, navItem ->
                                 NavigationBarItem(
                                     selected = selectedIndex == index,
                                     onClick = {
-                                        selectedIndex = index
-                                        navHostController.navigate(navItem.route)
+                                        navHostController.navigate(navItem.route) {
+                                            launchSingleTop = true
+                                            restoreState = true
+                                            popUpTo(navHostController.graph.findStartDestination().id) {
+                                                saveState = true
+                                            }
+                                        }
                                     },
-                                    icon = {
-                                        Icon(
-                                            imageVector = navItem.icon,
-                                            contentDescription = navItem.label
-                                        )
-                                    },
-                                    label = {
-                                        Text(text = navItem.label)
-                                    }
+                                    icon = { Icon(navItem.icon, contentDescription = navItem.label) },
+                                    label = { Text(navItem.label) }
                                 )
                             }
                         }

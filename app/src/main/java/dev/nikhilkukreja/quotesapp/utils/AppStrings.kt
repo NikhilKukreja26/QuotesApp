@@ -34,4 +34,6 @@ object AppStrings {
     const val confucius: String = "- Confucius"
     const val albertEinstein: String = "- Albert Einstein"
     const val emerson: String = "- Emerson"
+
+    const val saved: String = "Saved"
 }

@@ -48,7 +48,9 @@ fun AppNavGraph(
             )
         }
         composable(DestinationsRoutes.Saved.route) {
-            SavedScreen()
+            SavedScreen(
+                modifier = modifier
+            )
         }
     }
 }
